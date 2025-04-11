@@ -1,0 +1,79 @@
+<div class="container-fluid">
+    <div class="row g-5">
+        <h3>Reactive Forms</h3>
+        <div class="col-8">
+            <form class="row g-2" [formGroup]="userForm" (ngSubmit)="validForm()">
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Nombre</label>
+                    <input appLetters type="text" class="form-control" id="name" value="" formControlName="name">
+                    <div class="text-success" *ngIf="userForm.get('name')?.valid">
+                        Looks good!
+                    </div>
+                    <div class="text-danger" *ngIf="userForm.get('name')?.touched && userForm.get('name')?.invalid">
+                        Is required!
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <label for="lastName" class="form-label">Apellido</label>
+                    <input appLetters type="text" class="form-control" id="lastName" value="" formControlName="lastName">
+                    <div class="text-success" *ngIf="userForm.get('lastName')?.valid">
+                        Looks good!
+                    </div>
+                    <!-- <div class="text-danger"
+                        *ngIf="userForm.get('lastName')?.touched && userForm.get('lastName')?.invalid">
+                        Is required!
+                    </div> -->
+                    <div class="text-danger"
+                        *ngIf="userForm.get('lastName')?.touched && userForm.get('lastName')?.errors?.['minlength']">
+                        Is required minLength 5!
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col">
+                            <h5>Teléfonos</h5>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" (click)="addPhone()" class="btn btn-light">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-8">
+                            <div formArrayName="phones">
+                                <ng-container *ngFor="let phone of phones.controls; index as i">
+
+                                    <div class="input-group mb-1">
+                                        <input type="text" class="form-control" name="phone-{{i}}" id="phone-{{i}}"
+                                            [formControlName]="i">
+                                        <button class="btn btn-outline-secondary" (click)="deletePhone(i)" type="button"
+                                            id="phone-{{i}}">Eliminar</button>
+                                    </div>
+                                    <div class="text-success" *ngIf="phone?.valid">
+                                        Looks good!
+                                    </div>
+                                    <div class="text-danger" *ngIf="phone?.touched && phone?.errors?.['pattern']">
+                                        No coincide con el patron definido
+                                    </div>
+                                </ng-container>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-primary" type="submit">Enviar</button>
+                </div>
+            </form>
+
+
+        </div>
+        <div class="col-4">
+            <pre>{{userForm.value | json}}</pre>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+<div class="container-fluid">
+    <h3>Interceptores</h3>
+    <div class="row">
+        <ng-template ngFor let-contact [ngForOf]="users">
+            <div class="col">
+                <app-user-card [user]="contact" (searchById)="onSearchBy($event)"></app-user-card>
+            </div>
+        </ng-template>
+    </div>
+</div>
